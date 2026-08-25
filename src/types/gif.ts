@@ -1,3 +1,12 @@
+export type GifFrame = {
+  id: string
+  file: File
+  previewUrl: string
+  delayMs: number
+  width?: number
+  height?: number
+}
+
 export type LoopMode = 'forever' | 'once'
 
 export type FitMode = 'contain' | 'crop'

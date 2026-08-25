@@ -5,3 +5,7 @@
   color: #181817;
   background: #f5f5f4;
 }
+
+.font-machine {
+  font-family: 'IBM Plex Mono', monospace;
+}

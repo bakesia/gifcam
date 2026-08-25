@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { LocalImageFrame } from '../types/frame'
+import type { GifFrame } from '../types/gif'
 
 const acceptedTypes = new Set(['image/jpeg', 'image/png', 'image/webp'])
 
@@ -13,11 +13,12 @@ const readImageDimensions = (previewUrl: string) => new Promise<{ width: number;
   image.src = previewUrl
 })
 
-export function useImageFrames(defaultDelayMs: number) {
-  const [frames, setFrames] = useState<LocalImageFrame[]>([])
+export function useGifFrames(initialDefaultDelayMs = 500) {
+  const [frames, setFrames] = useState<GifFrame[]>([])
   const [selectedFrameId, setSelectedFrameId] = useState<string | null>(null)
+  const [defaultDelayMs, setDefaultDelayMs] = useState(initialDefaultDelayMs)
   const [uploadMessage, setUploadMessage] = useState<string | null>(null)
-  const framesRef = useRef<LocalImageFrame[]>([])
+  const framesRef = useRef<GifFrame[]>([])
 
   useEffect(() => {
     framesRef.current = frames
@@ -37,7 +38,7 @@ export function useImageFrames(defaultDelayMs: number) {
     if (validFiles.length === 0) return
 
     // 파일별 URL은 추가 시 한 번만 만들고, 렌더 단계에서는 재사용한다.
-    const newFrames = validFiles.map((file) => ({
+    const newFrames: GifFrame[] = validFiles.map((file) => ({
       id: crypto.randomUUID(),
       file,
       previewUrl: URL.createObjectURL(file),
@@ -61,7 +62,7 @@ export function useImageFrames(defaultDelayMs: number) {
     const frame = frames[frameIndex]
     if (!frame) return
 
-    // 삭제한 파일의 미리보기는 더 이상 필요 없으므로 즉시 URL을 정리한다.
+    // 삭제한 파일의 URL을 정리하고, 선택된 프레임이었다면 인접 프레임으로 자연스럽게 이동한다.
     URL.revokeObjectURL(frame.previewUrl)
     setFrames((currentFrames) => currentFrames.filter((item) => item.id !== frameId))
     if (selectedFrameId === frameId) {
@@ -69,9 +70,7 @@ export function useImageFrames(defaultDelayMs: number) {
     }
   }, [frames, selectedFrameId])
 
-  const selectedFrame = frames.find((frame) => frame.id === selectedFrameId) ?? null
-
-  const reorderFrames = useCallback((nextFrames: LocalImageFrame[]) => {
+  const reorderFrames = useCallback((nextFrames: GifFrame[]) => {
     setFrames(nextFrames)
   }, [])
 
@@ -85,5 +84,18 @@ export function useImageFrames(defaultDelayMs: number) {
     setFrames((currentFrames) => currentFrames.map((frame) => ({ ...frame, delayMs })))
   }, [])
 
-  return { frames, selectedFrame, selectedFrameId, uploadMessage, addFiles, removeFrame, reorderFrames, updateFrameDelay, applyDelayToAll, selectFrame: setSelectedFrameId }
+  return {
+    frames,
+    selectedFrame: frames.find((frame) => frame.id === selectedFrameId) ?? null,
+    selectedFrameId,
+    defaultDelayMs,
+    uploadMessage,
+    addFiles,
+    removeFrame,
+    reorderFrames,
+    updateFrameDelay,
+    applyDelayToAll,
+    setDefaultDelayMs,
+    selectFrame: setSelectedFrameId,
+  }
 }
