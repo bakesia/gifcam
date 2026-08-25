@@ -6,7 +6,14 @@ const acceptedTypes = new Set(['image/jpeg', 'image/png', 'image/webp'])
 const isSupportedImage = (file: File) =>
   acceptedTypes.has(file.type) || /\.(jpe?g|png|webp)$/i.test(file.name)
 
-export function useImageFrames() {
+const readImageDimensions = (previewUrl: string) => new Promise<{ width: number; height: number } | null>((resolve) => {
+  const image = new Image()
+  image.onload = () => resolve({ width: image.naturalWidth, height: image.naturalHeight })
+  image.onerror = () => resolve(null)
+  image.src = previewUrl
+})
+
+export function useImageFrames(defaultDelayMs: number) {
   const [frames, setFrames] = useState<LocalImageFrame[]>([])
   const [selectedFrameId, setSelectedFrameId] = useState<string | null>(null)
   const [uploadMessage, setUploadMessage] = useState<string | null>(null)
@@ -34,11 +41,20 @@ export function useImageFrames() {
       id: crypto.randomUUID(),
       file,
       previewUrl: URL.createObjectURL(file),
+      delayMs: defaultDelayMs,
     }))
 
     setFrames((currentFrames) => [...currentFrames, ...newFrames])
     setSelectedFrameId((currentId) => currentId ?? newFrames[0].id)
-  }, [])
+
+    // 크기 정보는 출력 설정의 예상 값을 보여주기 위한 메타데이터일 뿐, 픽셀 데이터는 보관하지 않는다.
+    void Promise.all(newFrames.map(async (frame) => ({ id: frame.id, dimensions: await readImageDimensions(frame.previewUrl) }))).then((results) => {
+      setFrames((currentFrames) => currentFrames.map((frame) => {
+        const result = results.find((item) => item.id === frame.id)
+        return result?.dimensions ? { ...frame, ...result.dimensions } : frame
+      }))
+    })
+  }, [defaultDelayMs])
 
   const removeFrame = useCallback((frameId: string) => {
     const frameIndex = frames.findIndex((frame) => frame.id === frameId)
@@ -55,5 +71,19 @@ export function useImageFrames() {
 
   const selectedFrame = frames.find((frame) => frame.id === selectedFrameId) ?? null
 
-  return { frames, selectedFrame, selectedFrameId, uploadMessage, addFiles, removeFrame, selectFrame: setSelectedFrameId }
+  const reorderFrames = useCallback((nextFrames: LocalImageFrame[]) => {
+    setFrames(nextFrames)
+  }, [])
+
+  const updateFrameDelay = useCallback((frameId: string, delayMs: number) => {
+    setFrames((currentFrames) => currentFrames.map((frame) => (
+      frame.id === frameId ? { ...frame, delayMs } : frame
+    )))
+  }, [])
+
+  const applyDelayToAll = useCallback((delayMs: number) => {
+    setFrames((currentFrames) => currentFrames.map((frame) => ({ ...frame, delayMs })))
+  }, [])
+
+  return { frames, selectedFrame, selectedFrameId, uploadMessage, addFiles, removeFrame, reorderFrames, updateFrameDelay, applyDelayToAll, selectFrame: setSelectedFrameId }
 }
