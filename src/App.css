@@ -1,1 +1,51 @@
-@import "tailwindcss";
+.film-sprockets {
+  background: repeating-linear-gradient(
+    90deg,
+    #09090b 0 11px,
+    #292524 11px 18px
+  );
+  scrollbar-color: #71717a #18181b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@keyframes recBlink {
+  0%,
+  25% {
+    opacity: 0.25;
+  }
+
+  25%,
+  50% {
+    opacity: 0.5;
+  }
+
+  50%,
+  75% {
+    opacity: 0.75;
+  }
+
+  75%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes recordingFade {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
