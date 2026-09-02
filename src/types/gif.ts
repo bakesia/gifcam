@@ -30,3 +30,16 @@ export type OutputSettings = {
   backgroundColor: BackgroundColor
   loop: LoopSetting
 }
+
+export type GifGenerationStatus = 'idle' | 'encoding' | 'ready' | 'error'
+
+export type GeneratedGif = {
+  blob: Blob
+  previewUrl: string
+  width: number
+  height: number
+  fileSize: number
+  durationMs: number
+  frameCount: number
+  sourceSignature: string
+}
