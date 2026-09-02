@@ -7,14 +7,26 @@ export type GifFrame = {
   height?: number
 }
 
-export type LoopMode = 'forever' | 'once'
+export type LoopSetting =
+  | { type: 'infinite' }
+  | { type: 'count'; count: number }
 
 export type FitMode = 'contain' | 'crop'
 
-export type OutputSizePreset = 'first-image' | 1920 | 1280 | 720
+export type OutputSizePreset = 'first-image' | 1920 | 1280 | 720 | 'custom'
+
+export type BackgroundColor = 'black' | 'white'
+
+export type Dimensions = {
+  width: number
+  height: number
+}
 
 export type OutputSettings = {
   sizePreset: OutputSizePreset
+  customWidth: number | null
+  customHeight: number | null
   fitMode: FitMode
-  loopMode: LoopMode
+  backgroundColor: BackgroundColor
+  loop: LoopSetting
 }
