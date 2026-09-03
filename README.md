@@ -1,75 +1,43 @@
-# React + TypeScript + Vite
+# GIFCAM
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+여러 장의 이미지를 브라우저에서 바로 GIF로 만드는 간단한 웹 도구입니다.
 
-Currently, two official plugins are available:
+사진은 서버로 업로드되지 않으며, 이미지 처리와 GIF 생성은 모두 사용자의 브라우저에서 이루어집니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- JPEG / PNG / WebP 이미지 추가
+- 프레임 순서 변경
+- 프레임별 재생 시간 설정
+- GIF 반복 횟수 설정
+- 출력 크기 설정
+- `contain` / `crop` 방식 선택
+- 검정 / 흰색 배경 설정
+- 브라우저 내 GIF 생성 및 다운로드
+- Web Worker를 이용한 GIF 인코딩
+- 별도의 로그인이나 서버 업로드 없음
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Privacy
 
-## Expanding the ESLint configuration
+업로드한 사진은 기기 밖으로 전송되지 않습니다.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+이미지 decode, Canvas 처리, GIF encoding 및 결과 파일 생성은 모두 브라우저에서 수행됩니다.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+자세한 내용은 서비스의 `Privacy` 페이지에서 확인할 수 있습니다.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Motion
+- gifski-wasm
+- Web Worker / OffscreenCanvas
 
-```
+## Development
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
