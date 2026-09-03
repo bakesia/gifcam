@@ -6,6 +6,10 @@ const pageMetadata: Record<AppRoute, { title: string; description: string }> = {
     title: 'GIFCAM - 사진으로 GIF 만들기',
     description: '여러 장의 사진을 브라우저에서 바로 GIF로 만들어보세요. 프레임 속도, 크기, 반복 횟수와 이미지 맞춤 방식을 설정할 수 있으며 사진은 기기 밖으로 전송되지 않습니다.',
   },
+  '/about': {
+    title: 'About | GIFCAM',
+    description: 'GIFCAM의 서비스 소개, 주요 기능, 브라우저 기반 GIF 생성 방식, 개인정보 처리 방향을 확인하세요.',
+  },
   '/privacy': {
     title: 'Privacy | GIFCAM',
     description: 'GIFCAM의 브라우저 내 이미지 처리 방식과 개인정보 보호 안내입니다.',

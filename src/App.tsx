@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AppHeader } from "./components/AppHeader";
+import { AboutPage } from "./components/AboutPage";
 import { AppFooter } from "./components/AppFooter";
 import { CameraShell } from "./components/CameraShell";
 import { FilmStrip } from "./components/FilmStrip";
@@ -168,7 +169,7 @@ function App() {
     <div className="flex min-h-screen flex-col bg-stone-100 text-zinc-900">
       <AppHeader onNavigate={navigate} />
 
-      {infoPage ? <InfoPage page={infoPage} onNavigate={navigate} /> : <>
+      {route === "/about" ? <AboutPage onNavigate={navigate} /> : infoPage ? <InfoPage page={infoPage} onNavigate={navigate} /> : <>
       <main className="flex-1 px-4 py-7 sm:px-8 sm:py-10">
         <section
           className="mx-auto max-w-6xl"

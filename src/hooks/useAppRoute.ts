@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 
-export type AppRoute = '/' | '/privacy' | '/licenses'
+export type AppRoute = '/' | '/about' | '/privacy' | '/licenses'
 
-const supportedRoutes: AppRoute[] = ['/', '/privacy', '/licenses']
+const supportedRoutes: AppRoute[] = ['/', '/about', '/privacy', '/licenses']
 
 const getRoute = (pathname: string): AppRoute => (
   supportedRoutes.includes(pathname as AppRoute) ? pathname as AppRoute : '/'
