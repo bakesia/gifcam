@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AppHeader } from "./components/AppHeader";
+import { AppFooter } from "./components/AppFooter";
 import { CameraShell } from "./components/CameraShell";
 import { FilmStrip } from "./components/FilmStrip";
 import { GifResultModal } from "./components/GifResultModal";
+import { InfoPage } from "./components/InfoPage";
 import { formatDimensions, getOutputDimensions } from "./lib/outputSize";
 import { useGifGeneration } from "./hooks/useGifGeneration";
 import { useGifFrames } from "./hooks/useGifFrames";
+import { useAppRoute } from "./hooks/useAppRoute";
+import { useDocumentMetadata } from "./hooks/useDocumentMetadata";
 import type { OutputSettings } from "./types/gif";
 import "./App.css";
 
@@ -35,6 +39,7 @@ function hasVisualOutputSettingsChange(
 
 function App() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const { route, navigate } = useAppRoute();
 
   const [outputSettings, setOutputSettings] = useState(INITIAL_OUTPUT_SETTINGS);
   const [hasAdjustedOutputSettings, setHasAdjustedOutputSettings] =
@@ -153,11 +158,18 @@ function App() {
     invalidateResult();
   }, [generationSignature, invalidateResult]);
 
-  return (
-    <div className="min-h-screen bg-stone-100 text-zinc-900">
-      <AppHeader />
+  useDocumentMetadata(route);
 
-      <main className="px-4 py-7 sm:px-8 sm:py-10">
+  const infoPage = route === "/privacy" || route === "/licenses"
+    ? route.slice(1) as "privacy" | "licenses"
+    : null;
+
+  return (
+    <div className="flex min-h-screen flex-col bg-stone-100 text-zinc-900">
+      <AppHeader onNavigate={navigate} />
+
+      {infoPage ? <InfoPage page={infoPage} onNavigate={navigate} /> : <>
+      <main className="flex-1 px-4 py-7 sm:px-8 sm:py-10">
         <section
           className="mx-auto max-w-6xl"
           id="workspace"
@@ -228,6 +240,9 @@ function App() {
         onClose={() => setDismissedResultSignature(generationSignature)}
         onDownload={downloadResult}
       />
+      </>}
+
+      <AppFooter onNavigate={navigate} />
     </div>
   );
 }
