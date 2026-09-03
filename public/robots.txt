@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gifcam.qpun0912.workers.dev/sitemap.xml
+Sitemap: https://gifcam.download/sitemap.xml
