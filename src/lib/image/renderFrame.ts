@@ -8,14 +8,17 @@ type RenderFrameOptions = {
 }
 
 export function renderFrameToCanvas(
-  canvas: HTMLCanvasElement,
+  canvas: HTMLCanvasElement | OffscreenCanvas,
   image: CanvasImageSource & { width: number; height: number },
   options: RenderFrameOptions,
 ) {
   canvas.width = options.dimensions.width
   canvas.height = options.dimensions.height
 
-  const context = canvas.getContext('2d')
+  const context = canvas.getContext('2d') as
+    | CanvasRenderingContext2D
+    | OffscreenCanvasRenderingContext2D
+    | null
   if (!context) return
 
   context.fillStyle = options.backgroundColor === 'black' ? '#000000' : '#ffffff'

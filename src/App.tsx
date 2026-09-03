@@ -62,6 +62,7 @@ function App() {
   } = useGifFrames();
   const {
     status: generationStatus,
+    progress: generationProgress,
     result: generatedResult,
     errorMessage: generationError,
     createGif,
@@ -172,6 +173,7 @@ function App() {
             outputSettings={outputSettings}
             useCanvasPreview={useCanvasPreview}
             generationStatus={generationStatus}
+            generationProgress={generationProgress}
             hasCurrentResult={hasCurrentResult}
             onAddFiles={handleAddFiles}
             onOpenFilePicker={openFilePicker}

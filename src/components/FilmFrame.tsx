@@ -26,7 +26,7 @@ export function FilmFrame({ frame, index, isSelected, onSelect, onDelete, onDela
         <span className="px-1.5 py-1 font-machine text-[10px] font-bold tracking-[0.08em] text-stone-100">{String(index + 1).padStart(2, '0')}</span>
       </button>
       <label className="mt-1 flex h-11 items-center gap-1 border border-zinc-500 bg-stone-100 px-2 font-machine text-[11px] text-zinc-700"><span className="sr-only">{String(index + 1).padStart(2, '0')}번 프레임 지연 시간</span><input className="h-9 min-w-0 flex-1 bg-transparent text-right text-sm font-bold outline-none focus:text-[#a64132]" type="number" min="0.1" step="0.1" value={frame.delayMs / 1000} onChange={handleDelayChange} /><span className="font-bold">초</span></label>
-      <button type="button" className="absolute right-2 top-2 grid size-6 place-items-center bg-zinc-900 text-white opacity-0 transition hover:bg-[#a64132] focus:opacity-100 group-hover:opacity-100 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#d06b58]" onClick={onDelete} aria-label={`${String(index + 1).padStart(2, '0')}번 프레임 삭제`}><Trash2 size={14} /></button>
+      <button type="button" className="absolute right-2 top-2 grid size-6 cursor-pointer place-items-center bg-zinc-900 text-white opacity-0 transition hover:bg-[#a64132] focus:opacity-100 group-hover:opacity-100 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#d06b58]" onClick={onDelete} aria-label={`${String(index + 1).padStart(2, '0')}번 프레임 삭제`}><Trash2 size={14} /></button>
     </Reorder.Item>
   )
 }

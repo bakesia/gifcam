@@ -33,6 +33,12 @@ export type OutputSettings = {
 
 export type GifGenerationStatus = 'idle' | 'encoding' | 'ready' | 'error'
 
+export type GifGenerationProgress =
+  | { stage: 'preparing' }
+  | { stage: 'rendering'; currentFrame: number; totalFrames: number }
+  | { stage: 'encoding' }
+  | { stage: 'finalizing' }
+
 export type GeneratedGif = {
   blob: Blob
   previewUrl: string
