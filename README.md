@@ -41,3 +41,21 @@
 npm install
 npm run dev
 ```
+
+프로덕션 빌드
+
+```bash
+npm run build
+```
+
+## Open Source Licenses
+
+GIFCAM은 여러 오픈소스 소프트웨어를 사용합니다.
+third-party 라이선스 및 고지는 [`THIRD_PARTY_LICENSES.md`](./THIRD_PARTY_LICENSES.md)에서 확인할 수 있습니다.
+GIF 인코딩에는 gifski-wasm 및 관련 AGPL 라이선스 구성 요소가 사용됩니다.
+
+## Source
+
+GIFCAM은 공개 저장소에서 개발되고 있습니다.
+
+[GIFCAM GitHub](https://github.com/bakesia/gifcam)
