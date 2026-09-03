@@ -19,7 +19,12 @@ const pageMetadata: Record<AppRoute, { title: string; description: string }> = {
 export function useDocumentMetadata(route: AppRoute) {
   useEffect(() => {
     const metadata = pageMetadata[route]
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    const routeUrl = new URL(route, canonical?.href ?? window.location.origin).toString()
+
     document.title = metadata.title
     document.querySelector('meta[name="description"]')?.setAttribute('content', metadata.description)
+    canonical?.setAttribute('href', routeUrl)
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', routeUrl)
   }, [route])
 }
