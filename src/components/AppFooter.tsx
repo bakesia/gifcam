@@ -1,8 +1,5 @@
 import type { AppRoute } from "../hooks/useAppRoute";
 
-const SOURCE_URL = "https://github.com/bakesia/gifcam";
-const CONTACT_URL = "https://github.com/bakesia/gifcam/issues";
-
 type AppFooterProps = {
   onNavigate: (route: AppRoute) => void;
 };
@@ -41,15 +38,6 @@ export function AppFooter({ onNavigate }: AppFooterProps) {
 
             <a
               className="cursor-pointer font-bold text-zinc-800 underline-offset-4 transition hover:text-zinc-500 hover:underline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#a64132]"
-              href={SOURCE_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Source
-            </a>
-
-            <a
-              className="cursor-pointer font-bold text-zinc-800 underline-offset-4 transition hover:text-zinc-500 hover:underline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[#a64132]"
               href="/privacy"
               onClick={handleNavigation("/privacy")}
             >
@@ -72,15 +60,6 @@ export function AppFooter({ onNavigate }: AppFooterProps) {
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <span>OPEN SOURCE</span>
-
-            <a
-              className="cursor-pointer transition hover:text-zinc-700 hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#a64132]"
-              href={CONTACT_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              REPORT AN ISSUE
-            </a>
           </div>
         </div>
       </div>
